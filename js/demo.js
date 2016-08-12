@@ -6,6 +6,8 @@ $(function () {
     var climate="Hot";
     var household = "House A";
     var temperature = "76";
+    var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+        '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'];
     $('#climate button').click(function() {
         $('#climate button').find("span").removeClass("glyphicon-ok");
         $(this).find("span").addClass("glyphicon-ok");
@@ -37,7 +39,7 @@ $(function () {
         temperature = $(this).val()
     });
 
-    $('#distributer').click(function() {
+    $('#distributor').click(function() {
         $('#filters').show();
         $("#mainPage").hide();
         return false;
@@ -52,14 +54,14 @@ $(function () {
         $('#filters').hide();
         $('#consumerfilters').hide();
         $("#consumerContent").hide();
-        $("#distributerContent").hide();
+        $("#distributorContent").hide();
         $("#mainPage").show();
         return false;
     });
     $('#consFiltersShortCut').click(function() {
         $('#filters').hide();
         $("#mainPage").hide();
-        $("#distributerContent").hide();
+        $("#distributorContent").hide();
         $("#consumerContent").hide();
         $('#consumerfilters').show();
         return false;
@@ -67,7 +69,7 @@ $(function () {
     $('#distFiltersShortCut').click(function() {
         $('#consumerfilters').hide();
         $("#mainPage").hide();
-        $("#distributerContent").hide();
+        $("#distributorContent").hide();
         $("#consumerContent").hide();
         $('#filters').show();
         return false;
@@ -75,7 +77,7 @@ $(function () {
 
     $('button#submit').click(function() {
         $('#filters').hide();
-        $( "#distributerContent" ).show().delay(5000);
+        $( "#distributorContent" ).show().delay(5000);
         charts();
     });
 
@@ -124,9 +126,9 @@ $(function () {
             var data = _.map(groupbyhourdata,function(d,index){
                 return  {
                     "Hour" : parseInt(index),
-                    "Ouside Temperature (F)":_.meanBy(d, function (o) {
+                    "Ouside Temperature (F)":_.sumBy(d, function (o) {
                         return parseFloat(o["Ouside Temperature (F)"])
-                    }),
+                    })/d.length,
                     "Predicted Consumption - Before Optimization(KWH)": _.sumBy(d, function (o) {
                         return parseFloat(o["Predicted Consumption - Before Optimization(KWH)"])
                     }),
@@ -261,7 +263,8 @@ $(function () {
                 name: "Actual Consumption (KWH)",
                 data: _.map(householdData, function (d) {
                     return d["Actual Consumption (KWH)"]
-                })
+                }),
+                color:colors[0]
                }];
 
             // Unit consumption per house hold
@@ -271,10 +274,11 @@ $(function () {
                     defaultSeriesType: 'spline'
                 },
                 title: {
-                    text: 'Time vs Units consumed'
+                    text: 'Time vs Units Consumed'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 yAxis: [{
                     title: {
@@ -309,6 +313,7 @@ $(function () {
                 data: _.map(data, function (d) {
                     return parseFloat(d["Actual Consumption (KWH)"])
                 }),
+                color:colors[0],
                 zoneAxis: 'x',
                 zones: [{
                     value: 12
@@ -322,6 +327,7 @@ $(function () {
                     data: _.map(data, function (d) {
                         return parseFloat(d["Predicted Consumption - Before Optimization(KWH)"])
                     }),
+                    color:colors[5],
                     dashStyle: 'dot',
                     zIndex: 3
                 },
@@ -330,6 +336,7 @@ $(function () {
                     data: _.map(data, function (d) {
                         return parseFloat(d["Predicted Consumption - After Optmization(KWH)"])
                     }),
+                    color:colors[3],
                     dashStyle: 'dot',
                     zIndex: 2
                 },
@@ -337,6 +344,7 @@ $(function () {
                     name: "Ouside Temperature (F)",
                     yAxis: 1,
                     type: 'column',
+                    color:colors[6],
                     data: _.map(data, function (d) {
                         return parseFloat(d["Ouside Temperature (F)"])
                     }),
@@ -356,16 +364,18 @@ $(function () {
                     text: 'Time vs Price'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
 
-                yAxis: [{ // Primary yAxis
+                yAxis: [
+                    { // Primary yAxis
                     title: {
                         text: 'Price ($/KWH)'
                     }
+
                 },
-                    {
-                        labels: {
+                    {       labels: {
                             format: '{value} F',
                             style: {
                                 color: Highcharts.getOptions().colors[1]
@@ -385,7 +395,13 @@ $(function () {
                     return parseInt(d["Hour"])
                 })), function (t) {
                     return t > 0;
-                })
+                }),
+                plotBands: [{
+                        color: '#f2f2f2', // Color value
+                        from: 12, // Start of the plot band
+                        to: 24, // End of the plot band
+                        label: {text: 'Predicted'}
+                    }]
             }
             price_chart_options.series = [{
                 name: "Actual Price ($/KWH)",
@@ -395,6 +411,7 @@ $(function () {
                 }, {
                     dashStyle: 'dot'
                 }],
+                color:colors[0],
                 data: _.map(data, function (d) {
                     return parseFloat(d["Actual Price ($/KWH)"])
                 }),
@@ -409,6 +426,7 @@ $(function () {
                     data: _.map(data, function (d) {
                         return parseFloat(d["Predicted Price ($/KWH)"])
                     }),
+                    color:colors[8],
                     zIndex: 2,
                     tooltip: {
                         valuePrefix: '$'
@@ -418,6 +436,7 @@ $(function () {
                     name: "Ouside Temperature (F)",
                     type: 'column',
                     yAxis: 1,
+                    color:colors[6],
                     data: _.map(data, function (d) {
                         return parseFloat(d["Ouside Temperature (F)"])
                     }),
@@ -433,10 +452,11 @@ $(function () {
                     defaultSeriesType: 'spline'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 title: {
-                    text: 'Time vs Cost To Marketer'
+                    text: 'Time vs Cost To Distributor'
                 },
                 yAxis: { // Primary yAxis
                     title: {
@@ -456,7 +476,8 @@ $(function () {
                 })
             }
             market_chart_options.series = [{
-                name: "Cost to the Marketer - Predicted - Before Optimization($)",
+                name: "Cost to the Distributor - Predicted - Before Optimization($)",
+                color:colors[5],
                 data: _.map(data, function (d) {
                     return parseFloat(d["Cost to the Marketer - Predicted - Before Optimization($)"])
                 }),
@@ -466,7 +487,8 @@ $(function () {
                 }
             },
                 {
-                    name: "Cost to the Marketer - Predicted - After Optimization($)",
+                    name: "Cost to the Distributor - Predicted - After Optimization($)",
+                    color:colors[3],
                     data: _.map(data, function (d) {
                         return parseFloat(d["Cost to the Marketer - Predicted - After Optimization($)"])
                     }),
@@ -476,10 +498,11 @@ $(function () {
                     }
                 },
                 {
-                    name: "Cost to the Marketer - Actual($)",
+                    name: "Cost to the Distributor - Actual($)",
                     data: _.map(data, function (d) {
                         return parseFloat(d["Cost to the Marketer - Actual($)"])
                     }),
+                    color:colors[0],
                     tooltip: {
                         valuePrefix: '$'
                     }
@@ -491,7 +514,8 @@ $(function () {
                     defaultSeriesType: 'spline'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 title: {
                     text: 'Temperature vs Units Consumed'
@@ -523,25 +547,26 @@ $(function () {
                 }
             };
             _.map(data, function (d) {
-                d["Ouside Temperature (F)"] = parseInt(d["Ouside Temperature (F)"])
+                d["Ouside Temperature (F)"] = parseFloat(d["Ouside Temperature (F)"])
             })
             var dataorderByTemp = _.orderBy(data, ['Ouside Temperature (F)'], ['asc']);
             temp_vs_unit_chart_options.xAxis = {
                 categories: _.map(dataorderByTemp, function (d) {
-                    return parseInt(d["Ouside Temperature (F)"])
+                    return parseFloat(d["Ouside Temperature (F)"])
                 })
             }
             temp_vs_unit_chart_options.series = [{
                 name: "Actual Consumption (KWH)",
                 type: "column",
                 yAxis: 1,
+                color:colors[0],
                 data: _.map(dataorderByTemp, function (d) {
                     return parseFloat(d["Actual Consumption (KWH)"])
                 })
             },
                 {
                     name: "Actual Price ($/KWH)",
-
+                    color:colors[3],
                     data: _.map(dataorderByTemp, function (d) {
                         return parseFloat(d["Actual Price ($/KWH)"])
                     }),
@@ -556,10 +581,11 @@ $(function () {
                     defaultSeriesType: 'spline'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 title: {
-                    text: 'Temperature vs Units Consumed'
+                    text: 'Time vs Units Consumed vs Cost'
                 },
                 yAxis: [{ // Primary yAxis
                     title: {
@@ -590,24 +616,25 @@ $(function () {
             _.map(housefilterdata, function (d) {
                 d["Ouside Temperature (F)"] = parseInt(d["Ouside Temperature (F)"])
             })
-            var housedataorderByTemp = _.orderBy(housefilterdata, ['Ouside Temperature (F)'], ['asc']);
+            var housedataorderByTemp = _.orderBy(housefilterdata, ['Hour'], ['asc']);
             cons_temp_vs_unit_chart_options.xAxis = {
-                categories: _.map(dataorderByTemp, function (d) {
-                    return parseInt(d["Ouside Temperature (F)"])
+                categories: _.map(housefilterdata, function (d) {
+                    return parseInt(d["Hour"])
                 })
             }
             cons_temp_vs_unit_chart_options.series = [{
                 name: "Actual Consumption (KWH)",
                 type: "column",
                 yAxis: 1,
-                data: _.map(housedataorderByTemp, function (d) {
+                color:colors[0],
+                data: _.map(housefilterdata, function (d) {
                     return parseFloat(d["Actual Consumption (KWH)"])
                 })
             },
                 {
                     name: "Actual Price ($/KWH)",
-
-                    data: _.map(housedataorderByTemp, function (d) {
+                    color:colors[3],
+                    data: _.map(housefilterdata, function (d) {
                         return parseFloat(d["Actual Price ($/KWH)"])
                     }),
                     tooltip: {
@@ -649,6 +676,15 @@ $(function () {
             if ($('#consumser_climate').length) {
                 $("#consumser_climate").text(climate);
             }
+            if ($('#distributor_climate').length) {
+                $("#distributor_climate").text(climate);
+            }
+            if ($('#distributor_temp').length) {
+                $("#distributor_temp").text(temperature);
+            }
+            if ($('#consumser_temp').length) {
+                $("#consumser_temp").text(temperature);
+            }
             if ($('#house_saving').length) {
                 $("#house_saving").text(_.round(total_saving_per_house, 2));
             }
@@ -662,7 +698,8 @@ $(function () {
                     defaultSeriesType: 'spline'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 title: {
                     text: 'Time vs Cost To Consumers'
@@ -686,6 +723,7 @@ $(function () {
             }
             consumers_cost_chart_options.series = [{
                 name: "Cost to the Consumer - Predicted - Before Optimization($)",
+                color:colors[5],
                 data: _.map(data, function (d) {
                     return parseFloat(d["Cost to the Consumer - Predicted - Before Optimization($)"])
                 }),
@@ -696,6 +734,7 @@ $(function () {
             },
                 {
                     name: "Cost to the Consumer - Predicted - After Optimization($)",
+                    color:colors[3],
                     data: _.map(data, function (d) {
                         return parseFloat(d["Cost to the Consumer - Predicted - After Optimization($)"])
                     }),
@@ -709,6 +748,7 @@ $(function () {
                     data: _.map(data, function (d) {
                         return parseFloat(d["Cost to the Consumer - Actual($)"])
                     }),
+                    color:colors[0],
                     tooltip: {
                         valuePrefix: '$'
                     }
@@ -721,17 +761,18 @@ $(function () {
             var consumner_cost_chart_options = {
                 chart: {
                     renderTo: 'chart6',
-                    defaultSeriesType: 'spline'
+                    defaultSeriesType: 'column'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 title: {
-                    text: 'Time vs Cost To Consumers'
+                    text: 'Time vs Cost Savings'
                 },
                 yAxis: { // Primary yAxis
                     title: {
-                        text: 'Price ($/KWH)'
+                        text: '$'
                     }
                 },
 
@@ -747,30 +788,12 @@ $(function () {
                 })
             }
             consumner_cost_chart_options.series = [{
-                name: "Cost to the Consumer - Predicted - Before Optimization($)",
-                data: _.map(housefilterdata, function (d) {
-                    return parseFloat(d["Cost to the Consumer - Predicted - Before Optimization($)"])
-                }),
-                dashStyle: 'dot',
-                tooltip: {
-                    valuePrefix: '$'
-                }
-            },
-                {
-                    name: "Cost to the Consumer - Predicted - After Optimization($)",
+                    name: "Cost Saving ($)",
                     data: _.map(housefilterdata, function (d) {
-                        return parseFloat(d["Cost to the Consumer - Predicted - After Optimization($)"])
+                        return parseFloat(d["Cost to the Marketer - Predicted - Before Optimization($)"]) - parseFloat(d["Cost to the Marketer - Actual($)"])
                     }),
+                    color:colors[0],
                     dashStyle: 'dot',
-                    tooltip: {
-                        valuePrefix: '$'
-                    }
-                },
-                {
-                    name: "Cost to the Consumer - Actual($)",
-                    data: _.map(housefilterdata, function (d) {
-                        return parseFloat(d["Cost to the Consumer - Actual($)"])
-                    }),
                     tooltip: {
                         valuePrefix: '$'
                     }

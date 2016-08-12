@@ -1,0 +1,25 @@
+.submit{
+    text-align: center;
+}
+button#submit{
+    width: 150px;
+}
+#mainPage{
+    padding: 10%;
+}
+.fa-16x {
+    font-size: 16em;
+}
+#house {
+    margin-right: 10px;
+}
+.navbar-inverse {
+    border-bottom: 5px solid #ffa215;
+}
+.fa-spinner{
+    margin-left: 50%;
+    margin-top: 20%;
+}
+.navbar-brand>img {
+    width: 62%;
+}

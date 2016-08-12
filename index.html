@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Airlink</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/demo.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="main_page_wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><img src="header-logo.png" alt="Tiger Analytics"/></a>
+        </div>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- /.navbar-collapse -->
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div id="mainPage" class="row">
+                <div class="col-lg-2 col-md-6"></div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-bolt fa-16x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Distributer</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a id="distributer" href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Go to Distributer page</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-group fa-16x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Consumers</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a id="consumers" href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Go to Consumers page</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6"></div>
+                </div>
+                <!-- Page Heading -->
+            <div id="filters" style="display: none;">
+                <ol class="breadcrumb">
+                    <li><a class="homeMenu" href="#">Home</a></li>
+                    <li class="active">Data</li>
+                </ol>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Choose filters
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Climate</label>
+                                <div id="climate" class="btn-group btn-group-justified" role="group" aria-label="...">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-danger" value="Hot"><span class="glyphicon pull-left" aria-hidden="true"></span>Hot</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-warning" value="Normal"><span class="glyphicon pull-left" aria-hidden="true"></span> Normal</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary" value="Cold"><span class="glyphicon pull-left" aria-hidden="true"></span> Cold</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Room Temperature</label>
+                                <div id="temparature" class="btn-group btn-group-justified" role="group" aria-label="...">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-danger" value="76"><span class="glyphicon pull-left" aria-hidden="true"></span> 76</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-warning" value="74"><span class="glyphicon pull-left" aria-hidden="true"></span> 74</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary" value="72"><span class="glyphicon pull-left" aria-hidden="true"></span> 72</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="submit">
+                <button type="button" class="btn btn-success" id="submit">Submit</button>
+            </div>
+            </div>
+            <div id="consumerfilters" style="display: none;">
+                <ol class="breadcrumb">
+                    <li><a class="homeMenu" href="#">Home</a></li>
+                    <li class="active">Data</li>
+                </ol>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Choose filters
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="row"><div class="col-xs-12">
+                                    <label>House</label>
+                                    <div id="consHouses" class="btn-group btn-group-justified" role="group" aria-label="...">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default" value="House A"><span class="glyphicon pull-left fa-5x" aria-hidden="true"></span><i class="fa fa-home fa-5x" aria-hidden="true"></i>House A</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default" value="House B"><span class="glyphicon pull-left fa-5x" aria-hidden="true"></span><i class="fa fa-home fa-5x" aria-hidden="true"></i> House B</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default" value="House C"><span class="glyphicon pull-left fa-5x" aria-hidden="true"></span><i class="fa fa-home fa-5x" aria-hidden="true"></i> House C</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default" value="House D"><span class="glyphicon pull-left fa-5x" aria-hidden="true"></span><i class="fa fa-home fa-5x" aria-hidden="true"></i> House D</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Climate</label>
+                                <div id="consClimate" class="btn-group btn-group-justified" role="group" aria-label="...">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-danger" value="Hot"><span class="glyphicon pull-left" aria-hidden="true"></span>Hot</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-warning" value="Normal"><span class="glyphicon pull-left" aria-hidden="true"></span> Normal</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary" value="Cold"><span class="glyphicon pull-left" aria-hidden="true"></span> Cold</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Room Temperature</label>
+                                <div id="consTemparature" class="btn-group btn-group-justified" role="group" aria-label="...">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-danger" value="76"><span class="glyphicon pull-left" aria-hidden="true"></span> 76</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-warning" value="74"><span class="glyphicon pull-left" aria-hidden="true"></span> 74</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary" value="72"><span class="glyphicon pull-left" aria-hidden="true"></span> 72</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit">
+                    <button type="button" class="btn btn-success" id="consSubmit">Submit</button>
+                </div>
+            </div>
+            <div id="distributerContent" style="display: none;">
+                <ol class="breadcrumb">
+                    <li><a class="homeMenu" href="#">Home</a></li>
+                    <li><a id="distFiltersShortCut" href="#">Filters</a></li>
+                    <li class="active">Distributer</li>
+                </ol>
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Distributor <small>Statistics Overview</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-cart-plus fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">100.5</div>
+                                        <div>Total Units Purchased(KWH)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-plug fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div id="total_unit_consumed" class="huge">26</div>
+                                        <div>Total Units Consumed(KWH)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-cloud fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">Hot</div>
+                                        <div>Climate</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-usd fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div id="total_saving" class="huge">124</div>
+                                        <div>Total Saving</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="page-header">
+                            Report Analysis
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6"><div id="chart"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Loading...</span></div></div>
+                    <div class="col-lg-6"><div id="chart1"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Loading...</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6"><div id="chart2"></div></div>
+                    <div class="col-lg-6"><div id="chart3"></div></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6"><div id="chart4"></div></div>
+                    <div class="col-lg-6"><div id="chart5"></div></div>
+                </div>
+            </div>
+            <div id="consumerContent" style="display: none;">
+                <ol class="breadcrumb">
+                    <li><a class="homeMenu" href="#">Home</a></li>
+                    <li><a id="consFiltersShortCut" href="#">Filters</a></li>
+                    <li class="active">Consumer</li>
+                </ol>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Consumer <span id="house"></span><small>Statistics Overview</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-plug fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div id="house_total_units" class="huge">26</div>
+                                        <div>Total Units Consumed</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-info fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div id="consumser_temp" class="huge">90</div>
+                                        <div>Temperature</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-cloud fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div id="consumser_climate" class="huge">Hot</div>
+                                        <div>Climate</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-usd fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div id="house_saving" class="huge">124</div>
+                                        <div>Total Saving</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6"><div id="chart6"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Loading...</span></div></div>
+                    <div class="col-lg-6"><div id="chart7"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <span class="sr-only">Loading...</span></div></div>
+                </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap-slider.min.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <script src="js/plugins/highcharts/highcharts.js"></script>
+    <script src="js/demo.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

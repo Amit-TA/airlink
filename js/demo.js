@@ -233,7 +233,8 @@ $(function () {
                     text: 'House Types vs Units Consumed'
                 },
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    valueDecimals: 3
                 },
                 yAxis: [{
                     title: {

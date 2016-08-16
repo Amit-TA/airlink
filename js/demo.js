@@ -466,7 +466,7 @@ $(function () {
                 },
                 yAxis: { // Primary yAxis
                     title: {
-                        text: 'Price ($)'
+                        text: 'Price ($ in thousands)'
                     }
                 },
 

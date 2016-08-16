@@ -111,7 +111,7 @@ $(function () {
         return result;
     }
     function charts() {
-        $.get('data/demo_latest.csv', function (data) {
+        $.get('data/demo_v2.csv', function (data) {
             var data = csvJSON(data);
             var filterdata = _.filter(data, function (d) {
                 return d["Room Temperature (F)"] == temperature && d["Climate"] == climate
@@ -207,6 +207,8 @@ $(function () {
                 }
             });
 
+            householdData = _.orderBy(householdData, ['Household'], ['asc']);
+
             var total_units_consumed = _.sumBy(data, function (o) { return o["Actual Consumption (KWH)"]});
             var total_saving = 0;
             var total_units_consumed_per_house = _.sumBy(housefilterdata, function (o) { return parseFloat(o["Actual Consumption (KWH)"])});
@@ -228,28 +230,16 @@ $(function () {
                     defaultSeriesType: 'column'
                 },
                 title: {
-                    text: 'Time vs Units consumed'
+                    text: 'House Types vs Units Consumed'
                 },
                 tooltip: {
                     shared: true
                 },
                 yAxis: [{
                     title: {
-                        text: 'Units'
+                        text: 'Average Units (KWH)'
                     }
-                },
-                    {
-                        labels: {
-                            format: '{value} F',
-                            style: {
-                                color: Highcharts.getOptions().colors[1]
-                            }
-                        },
-                        title: {
-                            text: 'Temperature (F)'
-                        },
-                        opposite: true
-                    }],
+                }],
                 credits: {
                     enabled: false
                 }
@@ -257,7 +247,10 @@ $(function () {
             house_unit_consumption_options.xAxis = {
                 categories: _.map(householdData, function (d) {
                     return d["Household"]
-                })
+                }),
+                title: {
+                    text: 'House Types'
+                }
             }
             house_unit_consumption_options.series = [{
                 name: "Actual Consumption (KWH)",
@@ -306,7 +299,16 @@ $(function () {
                     return parseInt(d["Hour"])
                 })), function (t) {
                     return t > 0;
-                })
+                }),
+                title: {
+                    text: 'Hour'
+                },
+                plotBands: [{
+                    color: '#f2f2f2', // Color value
+                    from: 11.5, // Start of the plot band
+                    to: 24, // End of the plot band
+                    label: {text: 'Predicted'}
+                }]
             }
             unit_consumption_options.series = [{
                 name: "Actual Consumption (KWH)",
@@ -396,9 +398,12 @@ $(function () {
                 })), function (t) {
                     return t > 0;
                 }),
+                title: {
+                    text: 'Hour'
+                },
                 plotBands: [{
                         color: '#f2f2f2', // Color value
-                        from: 12, // Start of the plot band
+                        from: 11.5, // Start of the plot band
                         to: 24, // End of the plot band
                         label: {text: 'Predicted'}
                     }]
@@ -460,7 +465,7 @@ $(function () {
                 },
                 yAxis: { // Primary yAxis
                     title: {
-                        text: 'Price ($/KWH)'
+                        text: 'Price ($)'
                     }
                 },
 
@@ -473,7 +478,16 @@ $(function () {
                     return parseInt(d["Hour"])
                 })), function (t) {
                     return t > 0;
-                })
+                }),
+                title: {
+                    text: 'Hour'
+                },
+                plotBands: [{
+                    color: '#f2f2f2', // Color value
+                    from: 11.5, // Start of the plot band
+                    to: 24, // End of the plot band
+                    label: {text: 'Predicted'}
+                }]
             }
             market_chart_options.series = [{
                 name: "Cost to the Distributor - Predicted - Before Optimization($)",
@@ -553,7 +567,10 @@ $(function () {
             temp_vs_unit_chart_options.xAxis = {
                 categories: _.map(dataorderByTemp, function (d) {
                     return parseFloat(d["Ouside Temperature (F)"])
-                })
+                }),
+                title: {
+                    text: 'Temperature (F)'
+                }
             }
             temp_vs_unit_chart_options.series = [{
                 name: "Actual Consumption (KWH)",
@@ -620,7 +637,10 @@ $(function () {
             cons_temp_vs_unit_chart_options.xAxis = {
                 categories: _.map(housefilterdata, function (d) {
                     return parseInt(d["Hour"])
-                })
+                }),
+                title: {
+                    text: 'Hour'
+                }
             }
             cons_temp_vs_unit_chart_options.series = [{
                 name: "Actual Consumption (KWH)",
@@ -664,7 +684,7 @@ $(function () {
             }
 
             if ($('#total_saving').length) {
-                $("#total_saving").text(_.round(total_saving, 2));
+                $("#total_saving").text(_.round(total_saving*250, 2));
             }
             if($('#total_unit_consumed').length) {
                 $("#total_unit_consumed").text(_.round(total_units_consumed, 2));
@@ -719,7 +739,10 @@ $(function () {
                     return parseInt(d["Hour"])
                 })), function (t) {
                     return t > 0;
-                })
+                }),
+                title: {
+                    text: 'Hour'
+                }
             }
             consumers_cost_chart_options.series = [{
                 name: "Cost to the Consumer - Predicted - Before Optimization($)",
@@ -785,7 +808,10 @@ $(function () {
                     return parseInt(d["Hour"])
                 })), function (t) {
                     return t > 0;
-                })
+                }),
+                title: {
+                    text: 'Hour'
+                }
             }
             consumner_cost_chart_options.series = [{
                     name: "Cost Saving ($)",
